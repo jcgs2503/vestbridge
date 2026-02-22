@@ -3,7 +3,7 @@
 import json
 import random
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from vestbridge.brokers.base import (
@@ -105,7 +105,7 @@ class PaperBroker(BrokerAdapter):
             bid=round(price - spread, 2),
             ask=round(price + spread, 2),
             volume=random.randint(100_000, 10_000_000),
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
         )
 
     async def get_positions(self) -> list[Position]:
@@ -147,7 +147,7 @@ class PaperBroker(BrokerAdapter):
         symbol = order.symbol.upper()
         price = self._get_simulated_price(symbol)
         order_id = f"paper_{uuid.uuid4().hex[:8]}"
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         # Handle limit orders
         if order.order_type == OrderType.LIMIT:
@@ -220,7 +220,9 @@ class PaperBroker(BrokerAdapter):
                     side=order.side,
                     order_type=order.order_type,
                     status=OrderStatus.REJECTED,
-                    message=f"Insufficient funds: need ${total_cost:.2f}, have ${self.state.cash:.2f}",
+                    message=(
+                        f"Insufficient funds: need ${total_cost:.2f}, have ${self.state.cash:.2f}"
+                    ),
                     timestamp=now,
                 )
             self.state.cash -= total_cost
@@ -233,7 +235,8 @@ class PaperBroker(BrokerAdapter):
                 self.state.positions[symbol] = {"qty": order.qty, "avg_cost": fill_price}
 
         elif order.side == Side.SELL:
-            if symbol not in self.state.positions or self.state.positions[symbol]["qty"] < order.qty:
+            has_shares = symbol in self.state.positions
+            if not has_shares or self.state.positions[symbol]["qty"] < order.qty:
                 available = self.state.positions.get(symbol, {}).get("qty", 0)
                 return OrderResult(
                     order_id=order_id,

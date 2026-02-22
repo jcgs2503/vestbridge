@@ -1,7 +1,7 @@
 """Load and validate YAML mandate files."""
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
@@ -21,7 +21,7 @@ def load_mandate(path: Path) -> Mandate:
     if "mandate_id" not in data or not data["mandate_id"]:
         data["mandate_id"] = f"mnd_{uuid.uuid4().hex[:8]}"
     if "created_at" not in data:
-        data["created_at"] = datetime.now(timezone.utc)
+        data["created_at"] = datetime.now(UTC)
 
     return Mandate(**data)
 

@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class ConcentrationCheck:
-    """Check that (existing position + order) / portfolio_value does not exceed max_concentration_pct."""
+    """Check that (existing + order) / portfolio_value <= max_concentration_pct."""
 
     name = "concentration"
 

@@ -1,6 +1,6 @@
 """Mandate engine — pre-trade validation against mandate rules."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from vestbridge.brokers.base import OrderRequest, Position
 from vestbridge.mandate.checks.asset_type import AssetTypeCheck
@@ -28,7 +28,7 @@ class TradingContext:
         self.portfolio_value = portfolio_value
         self.daily_notional = daily_notional
         self.daily_trade_count = daily_trade_count
-        self.current_time = current_time or datetime.now(timezone.utc)
+        self.current_time = current_time or datetime.now(UTC)
         self.current_price = current_price
 
 
