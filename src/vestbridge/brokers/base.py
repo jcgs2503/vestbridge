@@ -2,31 +2,31 @@
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 
-class Side(str, Enum):
+class Side(StrEnum):
     BUY = "buy"
     SELL = "sell"
     SHORT = "short"
 
 
-class OrderType(str, Enum):
+class OrderType(StrEnum):
     MARKET = "market"
     LIMIT = "limit"
     STOP = "stop"
 
 
-class AssetType(str, Enum):
+class AssetType(StrEnum):
     EQUITY = "equity"
     OPTION = "option"
     FUTURE = "future"
     CRYPTO = "crypto"
 
 
-class OrderStatus(str, Enum):
+class OrderStatus(StrEnum):
     PENDING = "pending"
     FILLED = "filled"
     PARTIALLY_FILLED = "partially_filled"

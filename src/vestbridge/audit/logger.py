@@ -3,7 +3,7 @@
 import hashlib
 import json
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from vestbridge.audit.models import AuditEntry
@@ -34,7 +34,7 @@ class AuditLogger:
         """Create and append an audit entry to the log."""
         entry = AuditEntry(
             event_id=f"evt_{uuid.uuid4().hex[:12]}",
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
             agent_id=agent_id,
             action=action,
             params=params,
@@ -75,7 +75,7 @@ class AuditLogger:
 
         Returns (daily_notional, daily_trade_count).
         """
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now(UTC).date()
         daily_notional = 0.0
         daily_trade_count = 0
 

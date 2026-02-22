@@ -4,7 +4,6 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-
 VEST_DIR = Path.home() / ".vest"
 MANDATES_DIR = VEST_DIR / "mandates"
 AGENTS_DIR = VEST_DIR / "agents"
