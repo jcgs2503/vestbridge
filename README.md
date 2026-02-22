@@ -1,6 +1,6 @@
-# VestBridge
+# VestBridge [vestbridge.xyz]
 
-**Let your agents trade on your terms.**
+**Let your agents trade with confidence.**
 
 VestBridge is an open-source MCP server that connects AI agents to financial brokers — with built-in mandate enforcement and a complete audit trail.
 
