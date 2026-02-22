@@ -1,6 +1,6 @@
 """Pydantic models for mandate specification and evaluation results."""
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
@@ -25,7 +25,7 @@ class Mandate(BaseModel):
     version: int = 1
     agent_id: str | None = None
     permissions: MandatePermissions
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     description: str | None = None
 
 
