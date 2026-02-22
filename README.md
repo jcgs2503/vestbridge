@@ -1,4 +1,4 @@
-# VestBridge [vestbridge.xyz]
+# [VestBridge](vestbridge.xyz)
 
 **Let your agents trade with confidence.**
 
