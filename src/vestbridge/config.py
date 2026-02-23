@@ -5,6 +5,7 @@ from pathlib import Path
 from pydantic import BaseModel
 
 VEST_DIR = Path.home() / ".vest"
+OWNER_DIR = VEST_DIR / "owner"
 MANDATES_DIR = VEST_DIR / "mandates"
 AGENTS_DIR = VEST_DIR / "agents"
 PAPER_DIR = VEST_DIR / "paper"
@@ -18,6 +19,7 @@ class VestConfig(BaseModel):
 def ensure_dirs() -> None:
     """Create the ~/.vest/ directory structure if it doesn't exist."""
     VEST_DIR.mkdir(exist_ok=True)
+    OWNER_DIR.mkdir(exist_ok=True)
     MANDATES_DIR.mkdir(exist_ok=True)
     AGENTS_DIR.mkdir(exist_ok=True)
     PAPER_DIR.mkdir(exist_ok=True)
