@@ -23,10 +23,24 @@ class MandatePermissions(BaseModel):
 class Mandate(BaseModel):
     mandate_id: str = Field(default_factory=lambda: "")
     version: int = 1
+    scope: str = "agent"
     agent_id: str | None = None
     permissions: MandatePermissions
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     description: str | None = None
+
+    # Signature fields (set by vestbridge mandate sign)
+    signature: str | None = Field(
+        default=None, alias="_signature", serialization_alias="_signature"
+    )
+    signed_at: datetime | None = Field(
+        default=None, alias="_signed_at", serialization_alias="_signed_at"
+    )
+    signed_by: str | None = Field(
+        default=None, alias="_signed_by", serialization_alias="_signed_by"
+    )
+
+    model_config = {"populate_by_name": True}
 
 
 class CheckResult(BaseModel):
