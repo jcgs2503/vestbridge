@@ -62,16 +62,12 @@ def _create_mandate() -> None:
     click.echo("Creating default mandate...")
 
     max_order = click.prompt("  Max order size (USD)", default=10000, type=float)
-    max_concentration = click.prompt(
-        "  Max single-stock concentration (%)", default=20, type=float
-    )
+    max_concentration = click.prompt("  Max single-stock concentration (%)", default=20, type=float)
     max_daily_notional = click.prompt("  Max daily notional (USD)", default=50000, type=float)
     max_daily_trades = click.prompt("  Max daily trades", default=50, type=int)
     asset_types_str = click.prompt("  Allowed asset types", default="equity")
     blocked_str = click.prompt("  Block any symbols?", default="")
-    allowed_str = click.prompt(
-        "  Restrict to specific symbols? (leave blank for all)", default=""
-    )
+    allowed_str = click.prompt("  Restrict to specific symbols? (leave blank for all)", default="")
 
     allowed_types = [t.strip() for t in asset_types_str.split(",") if t.strip()]
     blocked = [s.strip().upper() for s in blocked_str.split(",") if s.strip()] or None
