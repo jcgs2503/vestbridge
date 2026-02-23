@@ -73,38 +73,46 @@ class PermissionManager:
         # Check mandate files are read-only
         for mandate_path in self.mandate_paths:
             if not mandate_path.exists():
-                checks.append(SecurityCheck(
-                    name=f"mandate:{mandate_path.name}",
-                    passed=False,
-                    detail="file missing",
-                    critical=True,
-                ))
+                checks.append(
+                    SecurityCheck(
+                        name=f"mandate:{mandate_path.name}",
+                        passed=False,
+                        detail="file missing",
+                        critical=True,
+                    )
+                )
                 continue
             mode = mandate_path.stat().st_mode & 0o777
-            checks.append(SecurityCheck(
-                name=f"mandate:{mandate_path.name}",
-                passed=mode == 0o444,
-                detail=f"permissions: {oct(mode)}",
-            ))
+            checks.append(
+                SecurityCheck(
+                    name=f"mandate:{mandate_path.name}",
+                    passed=mode == 0o444,
+                    detail=f"permissions: {oct(mode)}",
+                )
+            )
 
         # Check private key is owner-read-only
         if self.owner_private_key_path and self.owner_private_key_path.exists():
             mode = self.owner_private_key_path.stat().st_mode & 0o777
-            checks.append(SecurityCheck(
-                name="owner_private_key",
-                passed=mode == 0o400,
-                detail=f"permissions: {oct(mode)}",
-                critical=True,
-            ))
+            checks.append(
+                SecurityCheck(
+                    name="owner_private_key",
+                    passed=mode == 0o400,
+                    detail=f"permissions: {oct(mode)}",
+                    critical=True,
+                )
+            )
 
         # Check public key exists
         if self.owner_public_key_path:
-            checks.append(SecurityCheck(
-                name="owner_public_key",
-                passed=self.owner_public_key_path.exists(),
-                detail="exists" if self.owner_public_key_path.exists() else "missing",
-                critical=True,
-            ))
+            checks.append(
+                SecurityCheck(
+                    name="owner_public_key",
+                    passed=self.owner_public_key_path.exists(),
+                    detail="exists" if self.owner_public_key_path.exists() else "missing",
+                    critical=True,
+                )
+            )
 
         # Check audit logs exist for all agents
         if self.agents_dir and self.agents_dir.exists():
@@ -112,10 +120,12 @@ class PermissionManager:
                 if not agent_dir.is_dir():
                     continue
                 audit = agent_dir / "audit.jsonl"
-                checks.append(SecurityCheck(
-                    name=f"audit:{agent_dir.name}",
-                    passed=audit.exists(),
-                    detail="exists" if audit.exists() else "missing",
-                ))
+                checks.append(
+                    SecurityCheck(
+                        name=f"audit:{agent_dir.name}",
+                        passed=audit.exists(),
+                        detail="exists" if audit.exists() else "missing",
+                    )
+                )
 
         return checks
