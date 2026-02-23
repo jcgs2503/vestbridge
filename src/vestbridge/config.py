@@ -18,11 +18,8 @@ class VestConfig(BaseModel):
 
 def ensure_dirs() -> None:
     """Create the ~/.vest/ directory structure if it doesn't exist."""
-    VEST_DIR.mkdir(exist_ok=True)
-    OWNER_DIR.mkdir(exist_ok=True)
-    MANDATES_DIR.mkdir(exist_ok=True)
-    AGENTS_DIR.mkdir(exist_ok=True)
-    PAPER_DIR.mkdir(exist_ok=True)
+    for d in [VEST_DIR, OWNER_DIR, MANDATES_DIR, AGENTS_DIR, PAPER_DIR]:
+        d.mkdir(parents=True, exist_ok=True)
 
 
 def load_config() -> VestConfig:
